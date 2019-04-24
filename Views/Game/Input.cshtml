@@ -1,0 +1,23 @@
+﻿@using dsweb.Models
+@using Microsoft.AspNet.Identity
+@model ShowGameModel
+@{
+	ViewBag.Title = "Input Challenge Result";
+}
+<h2>Submit Your Result</h2>
+<div>
+	@using (Html.BeginForm("Simulate", "Game", FormMethod.Post, new { role = "form" }))
+	{
+		<div class="form-group">
+			@Html.LabelFor(m => m.Result, new { })
+		</div>
+
+
+		@Html.TextAreaFor(m => m.Result, 15, 100, new { })
+		@Html.ValidationMessageFor(m => m.Result, "", new { @class = "text-danger" })
+
+		<div class="form-group">
+			<input type="submit" value="確認提交" class="btn btn-default" />
+		</div>
+	}
+</div>

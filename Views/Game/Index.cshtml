@@ -1,0 +1,282 @@
+﻿@model IEnumerable<dsweb.Models.GameModels>
+
+@using dsweb.Models
+@using Microsoft.AspNet.Identity
+@{
+	ViewBag.Title = "Index";
+}
+@{
+	GameModels UserModel = Model.Where(m => m.StudentId == User.Identity.GetUserName()).First();
+}
+<h2>Rank</h2>
+<h3>by yourself</h3>
+@if (User.Identity.GetUserName() != "TA_account")
+{
+	<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.StudentId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.randomMove)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.noLook)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.heithoff)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.rlawrenc)
+			</th>
+		</tr>
+		<tr>
+			<td>
+				@Html.DisplayFor(model => UserModel.StudentId)
+			</td>
+			<td>
+				@if (UserModel.randomMove == true)
+				{
+					<p>Pass</p>
+				}
+				else
+				{
+					if (UserModel.op > 0)
+					{
+						@Html.ActionLink("Challenge", "Challenge", new { StudentId = "RandomRobot" })
+					}
+					else
+					{
+						<p>QQ</p>
+					}
+				}
+			</td>
+			<td>
+				@if (UserModel.noLook == true)
+				{
+					<p>Pass</p>
+				}
+				else
+				{
+					if (UserModel.op > 0)
+					{
+						@Html.ActionLink("Challenge", "Challenge", new { StudentId = "noLook" })
+
+					}
+					else
+					{
+						<p>QQ</p>
+					}
+				}
+			</td>
+			<td>
+				@if (UserModel.heithoff == true)
+				{
+					<p>Pass</p>
+				}
+				else
+				{
+					if (UserModel.op > 0)
+					{
+						@Html.ActionLink("Challenge", "Challenge", new { StudentId = "heithoff" })
+
+					}
+					else
+					{
+						<p>QQ</p>
+					}
+				}
+			</td>
+			<td>
+				@if (UserModel.rlawrenc == true)
+				{
+					<p>Pass</p>
+				}
+				else
+				{
+					if (UserModel.op > 0)
+					{
+						@Html.ActionLink("Challenge", "Challenge", new { StudentId = "rlawrenc" })
+					}
+					else
+					{
+						<p>QQ</p>
+					}
+				}
+			</td>
+		</tr>
+	</table>
+	<h3>by classmate</h3>
+	<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.StudentId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Rank)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Win)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Lose)
+			</th>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.StudentId)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Rank)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Win)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Lose)
+				</td>
+				<td>
+
+					@if (UserModel.StudentId.Equals(User.Identity.GetUserName()))
+					{
+						if ((UserModel.Rank - item.Rank > 0) && (UserModel.Rank - item.Rank) <= 5)
+						{
+							@Html.ActionLink("Challenge", "Challenge", new { StudentId = item.StudentId });
+						}
+					}
+					else
+					{
+						//donothing
+					}
+				</td>
+			</tr>
+		}
+
+	</table>
+}
+else
+{
+		<table class="table">
+			<tr>
+				<th>
+					<p>number</p>
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StudentId)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.randomMove)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.noLook)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.heithoff)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.rlawrenc)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.op)
+				</th>
+			</tr>
+			@{
+				var number = 1;
+				var randomMoveCounter = 0;
+				var noLookCounter = 0;
+				var heithoffCounter = 0;
+				var rlawrencCounter = 0;
+			}
+
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => number)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StudentId)
+					</td>
+					<td>
+						@if (item.randomMove == true)
+						{
+							<p>O</p>
+							randomMoveCounter++;
+						}
+						else
+						{
+							<p>X</p>
+						}
+					</td>
+					<td>
+						@if (item.noLook == true)
+						{
+							<p>O</p>
+							noLookCounter++;
+						}
+						else
+						{
+							<p>X</p>
+						}
+					</td>
+					<td>
+						@if (item.heithoff == true)
+						{
+							<p>O</p>
+							heithoffCounter++;
+						}
+						else
+						{
+							<p>X</p>
+						}
+					</td>
+					<td>
+						@if (item.rlawrenc == true)
+						{
+							<p>O</p>
+							rlawrencCounter++;
+						}
+						else
+						{
+							<p>X</p>
+						}
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.op)
+					</td>
+				</tr>
+
+				number++;
+			}
+			@{
+				number--;
+			}
+			<tr>
+				<td>
+					<p>total</p>
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => number)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => randomMoveCounter)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => noLookCounter)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => heithoffCounter)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => rlawrencCounter)
+				</td>
+			</tr>
+
+
+		</table>
+}

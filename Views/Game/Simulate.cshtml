@@ -1,0 +1,36 @@
+﻿@using dsweb.Models
+@model ShowGameModel
+@{
+	ViewBag.Title = "Simulator";
+}
+
+<h2>@Model.ResultArray[@Model.counter]</h2>
+<table>
+	@for (var i = 0; i < 5; i++)
+	{
+		<tr>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 0]" class="block">@Model.playBoard[@Model.counter][i, 0]</td>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 1]" class="block">@Model.playBoard[@Model.counter][i, 1]</td>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 2]" class="block">@Model.playBoard[@Model.counter][i, 2]</td>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 3]" class="block">@Model.playBoard[@Model.counter][i, 3]</td>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 4]" class="block">@Model.playBoard[@Model.counter][i, 4]</td>
+			<td style="color:@Model.colorBoard[@Model.counter][i, 5]" class="block">@Model.playBoard[@Model.counter][i, 5]</td>
+		</tr>
+	}
+</table>
+<br />
+
+<input type="button" class=" btn btn-default" value="prev" onclick="location.href='@Url.Action("Simulate", "Game", new { btn = 0 })'" />
+<input type="button" class=" btn btn-default" value="next" onclick="location.href='@Url.Action("Simulate", "Game", new { btn = 1 })'" />
+
+<style>
+	.block {
+		width: 50px;
+		height: 50px;
+		font-size: large;
+		border-style: solid;
+		border-color: black;
+		text-align: center;
+		font-weight: bolder;
+	}
+</style>
